@@ -5,7 +5,7 @@
 /sitemap*.xml
 *.zip
 *.gz
-
+test.php
 # временные файлы(картинки/иконки)
 tmp/
 
