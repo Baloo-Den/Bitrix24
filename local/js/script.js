@@ -39,7 +39,7 @@ function clickStartWorkingDayPopup() {
    buttonEndJobDay.innerText = 'Завершить рабочий день';
    buttonEndJobDay.onclick = function() {
       BX.ajax({
-         url: '/local/js/otus/StartWorkingDay/ajax.php',
+         url: '/local/js/ajax.php',
          data: {
             type: 'end'
          },
