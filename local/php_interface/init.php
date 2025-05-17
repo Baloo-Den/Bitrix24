@@ -9,6 +9,8 @@ if (file_exists(__DIR__."/src/autoloader.php"))
 }
 
 include_once __DIR__ . '/../app/autoload.php';
+include_once __DIR__ . '/js/scripts.php';
+
 if ($APPLICATION->GetCurDir()=='/stream/')//Если это лента, выводим температуру
 {
     ob_start();
