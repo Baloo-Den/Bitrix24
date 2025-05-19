@@ -3,7 +3,7 @@
 use Bitrix\Main\Page\Asset;
 
 \CJSCore::RegisterExt("OtusWorkingDay", array(
-    "js" => "\local\js\script.js",
+    "js" => "/local/js/script.js",
     "css" => "",
     "rel" => array(),
 ));//Подключаем свои скрипты
