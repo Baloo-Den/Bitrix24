@@ -13,7 +13,8 @@ include_once __DIR__ . '/js/scripts.php';
 if(file_exists(__DIR__.'/classes/autoload.php')){
     require_once __DIR__. '/classes/autoload.php';
 }
-
+\Bitrix\Main\UI\Extension::load('jquery3');
+\Bitrix\Main\UI\Extension::load("ui.bootstrap4");
 if ($APPLICATION->GetCurDir()=='/stream/')//Если это лента, выводим температуру
 {
     ob_start();
@@ -35,7 +36,16 @@ if ($APPLICATION->GetCurDir()=='/stream/')//Если это лента, выво
 //Обработка событий
 require dirname(__FILE__) . '/event_handler.php';
 
-function addFileLog($text, $path){
-
+function addFileLog($text, $path)
+{
     file_put_contents($path, $text . PHP_EOL, FILE_APPEND);
+}
+function getGroupUser()
+{
+    $id_groups= \Bitrix\Main\Engine\CurrentUser::get()->getUserGroups();//Получаем все группы пользователя
+    Bitrix\Main\Diag\Debug::dumpToFile($id_groups,'Var','/test.log');
+    if (in_array(10, $id_groups))//10 - Идешкa руководства    
+        return true;
+    else
+        return false;
 }

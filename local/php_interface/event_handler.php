@@ -8,5 +8,8 @@ $eventManager->addEventHandler('iblock', 'OnIBlockPropertyBuildList', ['Otus\Use
 
 $eventManager->addEventHandler("crm", "OnAfterCrmDealAdd", ['Otus\SynchronizationEvents\Synchronization', 'OnAfterDealAdd']);
 $eventManager->addEventHandler("crm", "OnAfterCrmDealUpdate", ['Otus\SynchronizationEvents\Synchronization', 'OnAfterDealUpdate']);
-$eventManager->addEventHandler("iblock", "OnAfterIBlockElementUpdate", ['Otus\SynchronizationEvents\Synchronization', 'OnElementAfterUpdate']);
+//$eventManager->addEventHandler("iblock", "OnAfterIBlockElementUpdate", ['Otus\SynchronizationEvents\Synchronization', 'OnElementAfterUpdate']);
+$eventManager->addEventHandler('crm', 'onEntityDetailsTabsInitialized', ['\Otus\Garage\CrmTabs','setCustomTabs',]);
+
+
 
