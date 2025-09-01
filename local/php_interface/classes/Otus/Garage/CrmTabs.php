@@ -21,7 +21,7 @@ class CrmTabs {
         $entityTypeID = $event->getParameter('entityTypeID');
 
         // Проверяем, что открыта карточка именно Сделки
-        if($entityTypeID == \CCrmOwnerType::Deal) {
+        if($entityTypeID == \CCrmOwnerType::Contact) {
             $tabs[] = [
                 'id' => 'garage',
                 'name' => 'Гараж',

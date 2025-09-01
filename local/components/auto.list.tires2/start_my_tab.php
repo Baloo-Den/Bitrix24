@@ -10,12 +10,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_befo
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true){
     die();
 }
-
-$APPLICATION->IncludeComponent(
-    'auto.list.tires2',
-    '',
-    []
-);
+$APPLICATION->IncludeComponent("Garage", "");
 
 require_once($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/epilog_after.php');
 die();

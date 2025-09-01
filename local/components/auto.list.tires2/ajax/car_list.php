@@ -5,7 +5,7 @@ define('PUBLIC_AJAX_MODE', true);?>
 
 <?$context=\Bitrix\Main\Application::getInstance()->getContext();
 $request=$context->getRequest();
-//\Bitrix\Main\Diag\Debug::dumpToFile($request,'Var','/test.log');
+
 ?>
 
 <?$APPLICATION->IncludeComponent("auto.list.tires2",

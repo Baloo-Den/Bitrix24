@@ -33,11 +33,11 @@ class GarageFactory
     /**
      * createDeal
      *
-     * @param  mixed $id_avto
+     * @param  mixed $id_avto, $products
      * @return void
      */
 
-    public static function createDeal($id_avto)
+    public static function createDeal($id_avto, $products)
     {
         if(\Bitrix\Main\Loader::includeModule('crm'))
         $factory = Container::getInstance()->getFactory(\CCrmOwnerType::Deal);
@@ -48,24 +48,63 @@ class GarageFactory
             $item->set('TYPE_ID', 1);//Воронка
             $item->set('title', 'Машина в сервис');//Заголовок сделки
             $item->set('CATEGORY_ID', 1); //Направление сделки
-            $item->set('STAGE_ID', 'C1:NEW'); //Стадия сделки
+            $item->set('STAGE_ID', 'C1:NEW'); //Стадия сделки 
+            $item->set('CONTACT_IDS', $_SESSION ["id_user_avto"]); //
             $item->set('ASSIGNED_BY_ID', 9);//Ответственным ставим Васечкинa
-            $item->set('OPPORTUNITY', 10000); // Сумма
             $item->set('CURRENCY_ID', 'RUB');//Валюта
-            $item->set('UF_ID_AVTO', $id_avto); // ПОльзовательское поле
-            $arr_id= array(26917,26919);
-            $tovar=GarageProducts::getAllPrices($arr_id);//Получаем цены для товаров            
-            $products = [['PRODUCT_ID' => 26917,'QUANTITY' => 4, 'PRICE'=>$tovar[26917]], ['PRODUCT_ID' => 26919,'QUANTITY' => 1, 'PRICE'=>$tovar[26919] ]];
+            $item->set('UF_ID_AVTO', $_SESSION['id_avto']); // Пoльзовательское поле
+            $item->set('UF_INIZIATOR', 'New service'); //Сделка создана из обслуживания авто 
             $item->setProductRowsFromArrays($products);//Товары выбранные покупателем
             $context = new \Bitrix\Crm\Service\Context();
-            //$user_id=\Bitrix\Main\Engine\CurrentUser::get()->getId();
-            //$context->setUserId($user_id);  //ставим юзера, из-под которого делаем
             $operation = $factory->getAddOperation($item, $context);  //добавление, $context- необязателен
             $operation->disableAllChecks(); //можно отключить проверки
-            $result = $operation->launch();   // Сохраняем сделку           
+            $result = $operation->launch();   // Сохраняем сделку   
+            if ($result)       
+                return true;
+            else
+                return false;
         }
     }
-        
+
+    /**
+     * createDealForPurchases
+     *
+     * @param  mixed $id_products
+     * @return void
+     */
+
+    public static function createDealForPurchases($id_products)
+    {
+        if(\Bitrix\Main\Loader::includeModule('crm'))
+        $factory = Container::getInstance()->getFactory(\CCrmOwnerType::Deal);
+        if ($factory)
+        {
+            $item = $factory->createItem();//создать элемент
+            // Заполняем поля сделки
+            $item->set('TYPE_ID', 4);//Воронка
+            $item->set('title', 'Закончился товар');//Заголовок сделки
+            $item->set('CATEGORY_ID', 4); //Направление сделки
+            $item->set('STAGE_ID', 'C1:NEW'); //Стадия сделки 
+            $item->set('UF_INIZIATOR', 'Zero products'); //
+            $products = [
+                            [
+                                'PRODUCT_ID' => $id_products["ID"],
+                                'QUANTITY' => 0,
+                                //'PRICE' => $price,
+                            ]
+                        ];
+            $item->setProductRowsFromArrays($products);//Товары выбранные покупателем
+            $context = new \Bitrix\Crm\Service\Context();
+            $operation = $factory->getAddOperation($item, $context);  //добавление, $context- необязателен
+            $operation->disableAllChecks(); //можно отключить проверки
+            $result = $operation->launch();   // Сохраняем сделку   
+            if ($result)       
+                return true;
+            else
+                return false;
+        }
+    }
+              
     /**
      * getDeal
      *
@@ -97,7 +136,6 @@ class GarageFactory
     {
           if(\Bitrix\Main\Loader::includeModule('crm'))
         $factory = Container::getInstance()->getFactory(\CCrmOwnerType::Deal);
-     //\Bitrix\Main\Diag\Debug::dumpToFile($id_avto,'Var','/test.log');
         if ($factory)
         {
         switch ($dest) 
@@ -135,7 +173,6 @@ class GarageFactory
                     {
                        
                         $arr[]=$item["ID"];
-                            \Bitrix\Main\Diag\Debug::dumpToFile($item["ID"],'Var','/test.log');
                     }  
                     return  $arr; 
                 }                 
@@ -161,7 +198,6 @@ class GarageFactory
         'order' => array("CREATED" => "DESC"), 
         'filter' => array(
         'ASSOCIATED_ENTITY_ID' => $id,
-        //'ASSOCIATED_ENTITY_TYPE_ID' => 1,
         ),
         'limit' => 100,
         'select' => array("*"),

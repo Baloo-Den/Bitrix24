@@ -1,25 +1,13 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 use Bitrix\Main\Localization\Loc;
-Loc::loadMessages(__FILE__); //    
+Loc::loadMessages(__FILE__); //  
+CJSCore::init("sidepanel");  
+
 ?>
 
-
-<style>
-  #colorSelect option {
-    background-color: inherit; /* Цвет фона по умолчанию */
-  }
-
-  #colorSelect option[value="#ff0000"] { background-color: #ff0000; }
-  #colorSelect option[value="#00ff00"] { background-color: #00ff00; }
-  #colorSelect option[value="#0000ff"] { background-color: #0000ff; }
-  #colorSelect option[value="#ffff00"] { background-color: #ffff00; }
-  #colorSelect option[value="#000000"] { background-color: #000000; color: white; }
-  #colorSelect option[value="#ffffff"] { background-color: #ffffff; }
-</style>
-<? //var_dump($arResult["CARS"]); ?>
 <div class="container">
-	<div id="car_list_wrap"><? $APPLICATION->IncludeComponent("Garage", "");?>
-		<div class="filter-data"><H2>Добавить машину в гараж</H2>
+	<div id="car_list_wrap">
+		<div class="filter-data"><H2><?=Loc::getMessage('ADD_AVTO')?></H2>
 			<form id="filters_form_auto" name="_form" action="<?=$type_filter == 'disk' ? '/search/disk/' : '/search/tyres/'?>" method="get">
 				<input type="hidden" name="box_type" value="avto" />
 				<div class="sel-row">
@@ -89,19 +77,12 @@ Loc::loadMessages(__FILE__); //
 								$('#car_list_wrap').html(text);
 							});
 						})						
-						/*$('select.cars-list').on('change', function(){
-							$.ajax({
-								url: '/local/components/auto.list.tires2/ajax/car_list.php?car='+$('select#CAR').val()+'&model='+$('select#MODEL').val()+'&year='+$('select#YEAR').val()+'&modification='+$('select#MODIFICATION').val()+'&type_filter='+$('input[name="type_filter"]:checked').val()
-							}).done(function( text ) {
-								$('#car_list_wrap').html(text);
-							});
-						})*/
+
 					});
 					
 					$("#btn_form").click(function(){
 
 						let msg=$('#filters_form_auto').serialize();//Считываем поля формы
-						//alert(msg);
 						$.ajax( {
 						type: "POST",
 						url: "/local/components/auto.list.tires2/ajax/new_auto.php",
@@ -111,4 +92,5 @@ Loc::loadMessages(__FILE__); //
 											} 
 						});   
 					});	
+				
 				</script>

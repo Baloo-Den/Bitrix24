@@ -44,11 +44,8 @@ class GarageProducts
         $prices = PriceTable::getList([
             'filter'=> ['PRODUCT_ID' => $arrId],
             'select' => [
-                //'ID',
                 'PRODUCT_ID',
-                //'CATALOG_GROUP_ID',
                 'PRICE',
-                //'CURRENCY'
             ],
             'order' => [
                 'PRODUCT_ID' => 'ASC'
@@ -71,23 +68,22 @@ class GarageProducts
 
     public static function getOstatki($productId)//
     {
-        $prices = \Bitrix\Catalog\StoreProductTable::getList([
-            'filter'=> ['ID' => $Id],
-            /*'select' => [
-                'QUANTITY',
-            ],*/
+        $result = \Bitrix\Catalog\ProductTable::getList(array(
 
-        ]); 
-        $rsStoreProduct = \Bitrix\Catalog\StoreProductTable::getList(array(
-            'filter' => array('=PRODUCT_ID'=>$productId,'STORE.ACTIVE'=>'Y'),
-            'select' => [
-                'AMOUNT',
-            ],
-));
-        while($elem = $rsStoreProduct->fetch())
+            'filter' => array('=ID'=>$productId),
+
+        ));
+
+
+
+        if($product=$result->fetch())
+
         {
-            $amount = $elem['AMOUNT'];
-        }
+
+            $amount = $product['[QUANTITY]'];
+
+        }        
+
         return $amount;               
     }   
 
@@ -120,6 +116,7 @@ class GarageProducts
 
     public static function updateProduct($id_product, $quantity)//Обновление остатков  
     {
+        
     $result=\Bitrix\Catalog\ProductTable::update($id_product,array(
             'QUANTITY'=>$quantity,
         )); 
