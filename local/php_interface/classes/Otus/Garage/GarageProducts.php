@@ -80,7 +80,7 @@ class GarageProducts
 
         {
 
-            $amount = $product['[QUANTITY]'];
+            $amount = $product ['QUANTITY'];
 
         }        
 
