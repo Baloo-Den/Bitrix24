@@ -1,4 +1,7 @@
 <?
+$PERM["bitrix"]["2"]="R";
+$PERM["bitrix"]["12"]="R";
+$PERM["index.php"]["2"]="R";
 $PERM["online"]["*"]="R";
 $PERM["desktop_app"]["*"]="R";
 $PERM["upload"]["*"]="R";
@@ -7,7 +10,6 @@ $PERM["/"]["13"]="T_10";
 $PERM["/"]["12"]="R";
 $PERM["/"]["*"]="D";
 $PERM["/"]["2"]="D";
-$PERM["bitrix"]["12"]="R";
 $PERM["about"]["9"]="T_9";
 $PERM["company"]["9"]="T_9";
 $PERM["pub"]["*"]="R";
